@@ -1,0 +1,13 @@
+{
+  "functions": {
+    "src/app/**/*.tsx": {
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/((?!api|_next|_static|favicon.ico|robots.txt).*)",
+      "destination": "/$1"
+    }
+  ]
+}
