@@ -9,6 +9,6 @@ if (process.env.MEDUSA_BACKEND_URL) {
 
 export const sdk = new Medusa({
   baseUrl: MEDUSA_BACKEND_URL,
-  debug: process.env.NODE_ENV === "development",
+  debug: false, // Disabled debug logging for cleaner console output
   publishableKey: process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
 })

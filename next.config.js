@@ -7,11 +7,12 @@ checkEnvVariables()
  */
 const nextConfig = {
   reactStrictMode: true,
-  logging: {
-    fetches: {
-      fullUrl: true,
-    },
-  },
+  // Reduced logging for cleaner console output
+  // logging: {
+  //   fetches: {
+  //     fullUrl: true,
+  //   },
+  // },
   eslint: {
     ignoreDuringBuilds: true,
   },
