@@ -1,5 +1,6 @@
 import { Github } from "@medusajs/icons"
 import { Button, Heading } from "@medusajs/ui"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 const Hero = () => {
   return (
@@ -10,24 +11,31 @@ const Hero = () => {
             level="h1"
             className="text-3xl leading-10 text-ui-fg-base font-normal"
           >
-            Ecommerce Starter Template
+            SparkCore LLC
           </Heading>
           <Heading
             level="h2"
             className="text-3xl leading-10 text-ui-fg-subtle font-normal"
           >
-            Powered by Medusa and Next.js
+            Premium E-commerce Solutions
           </Heading>
         </span>
-        <a
-          href="https://github.com/medusajs/nextjs-starter-medusa"
-          target="_blank"
-        >
-          <Button variant="secondary">
-            View on GitHub
-            <Github />
-          </Button>
-        </a>
+        <p className="text-ui-fg-subtle max-w-lg text-center">
+          Delivering innovative e-commerce experiences powered by cutting-edge technology 
+          and exceptional service. Your trusted partner for digital commerce solutions.
+        </p>
+        <div className="flex gap-4">
+          <LocalizedClientLink href="/store">
+            <Button variant="primary">
+              Explore Products
+            </Button>
+          </LocalizedClientLink>
+          <LocalizedClientLink href="/about">
+            <Button variant="secondary">
+              Learn More
+            </Button>
+          </LocalizedClientLink>
+        </div>
       </div>
     </div>
   )

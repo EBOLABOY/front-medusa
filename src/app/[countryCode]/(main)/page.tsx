@@ -6,9 +6,9 @@ import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
 export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
+  title: "SparkCore LLC - Premium E-commerce Solutions",
   description:
-    "A performant frontend ecommerce starter template with Next.js 15 and Medusa.",
+    "SparkCore LLC delivers innovative e-commerce experiences with cutting-edge technology and exceptional service. Your trusted partner for digital commerce solutions.",
 }
 
 export default async function Home(props: {

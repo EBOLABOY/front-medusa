@@ -17,7 +17,7 @@ export default async function ProductRail({
   } = await listProducts({
     regionId: region.id,
     queryParams: {
-      collection_id: collection.id,
+      ...(({ collection_id: collection.id } as any)),
       fields: "*variants.calculated_price",
     },
   })
