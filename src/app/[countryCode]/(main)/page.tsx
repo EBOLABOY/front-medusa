@@ -2,6 +2,8 @@ import { Metadata } from "next"
 
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
+import Features from "@modules/home/components/features"
+import AboutSection from "@modules/home/components/about-section"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
@@ -24,18 +26,29 @@ export default async function Home(props: {
     fields: "id, handle, title",
   })
 
-  if (!collections || !region) {
-    return null
-  }
-
   return (
     <>
       <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
+      <Features />
+      <AboutSection />
+      {collections && region && (
+        <div className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Explore Our Product Collections
+              </h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Discover our carefully curated selection of premium products designed 
+                to meet your every need.
+              </p>
+            </div>
+            <ul className="flex flex-col gap-x-6">
+              <FeaturedProducts collections={collections} region={region} />
+            </ul>
+          </div>
+        </div>
+      )}
     </>
   )
 }
