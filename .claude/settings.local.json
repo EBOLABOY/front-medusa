@@ -12,7 +12,8 @@
       "Bash(npx next:*)",
       "Bash(find:*)",
       "Bash(git add:*)",
-      "Bash(git push origin main)"
+      "Bash(git push origin main)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
