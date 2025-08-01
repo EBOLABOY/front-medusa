@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/((?!api|_next|_static|_vercel|favicon.ico|robots.txt|images|assets).*)",
-      "destination": "/index.html"
+      "destination": "/$1"
     }
   ]
 }

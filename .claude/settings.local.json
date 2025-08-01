@@ -11,7 +11,8 @@
       "Bash(rm -rf .next)",
       "Bash(npx next:*)",
       "Bash(find:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git push origin main)"
     ],
     "deny": []
   }
