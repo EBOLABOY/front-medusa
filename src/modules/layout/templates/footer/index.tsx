@@ -116,8 +116,28 @@ export default async function Footer() {
                     href="/about"
                     className="hover:text-ui-fg-base"
                   >
-                    About SparkCore LLC
+                    About Us
                   </LocalizedClientLink>
+                </li>
+                <li>
+                  <a
+                    href="https://amazon.com/stores/sparkcore"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-ui-fg-base"
+                  >
+                    Amazon Store
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://shop.tiktok.com/@sparkcore"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="hover:text-ui-fg-base"
+                  >
+                    TikTok Shop
+                  </a>
                 </li>
                 <li>
                   <LocalizedClientLink
@@ -125,14 +145,6 @@ export default async function Footer() {
                     className="hover:text-ui-fg-base"
                   >
                     Contact Us
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    href="/privacy"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Privacy Policy
                   </LocalizedClientLink>
                 </li>
               </ul>

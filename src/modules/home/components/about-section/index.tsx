@@ -17,13 +17,13 @@ const AboutSection = () => {
                 level="h2"
                 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight"
               >
-                Pioneering the Future of Digital Commerce
+                Bringing Quality Products to Your Everyday Life
               </Heading>
               
               <p className="text-xl text-gray-600 leading-relaxed">
-                Founded with a vision to revolutionize online retail, SparkCore LLC has been at the 
-                forefront of e-commerce innovation for over a decade. We believe that exceptional 
-                technology should be accessible to businesses of all sizes.
+                SparkCore LLC is a U.S.-based e-commerce company dedicated to designing, sourcing, 
+                and selling everyday consumer products that make life better. We specialize in home & living 
+                accessories, kids' items, and lifestyle gadgets that combine quality, functionality, and style.
               </p>
             </div>
 
@@ -33,8 +33,8 @@ const AboutSection = () => {
                   <span className="text-white text-sm font-bold">✓</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Innovation-Driven Solutions</h4>
-                  <p className="text-gray-600">Cutting-edge technology that stays ahead of market trends and customer expectations.</p>
+                  <h4 className="font-semibold text-gray-900 mb-1">Carefully Curated Selection</h4>
+                  <p className="text-gray-600">Every product is thoughtfully selected and tested to meet our high standards for quality and functionality.</p>
                 </div>
               </div>
               
@@ -43,8 +43,8 @@ const AboutSection = () => {
                   <span className="text-white text-sm font-bold">✓</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Customer-Centric Approach</h4>
-                  <p className="text-gray-600">Every solution is tailored to meet your unique business needs and objectives.</p>
+                  <h4 className="font-semibold text-gray-900 mb-1">Multi-Platform Convenience</h4>
+                  <p className="text-gray-600">Shop easily on Amazon, TikTok Shop, or our Shopify store - wherever you prefer to shop.</p>
                 </div>
               </div>
               
@@ -53,65 +53,106 @@ const AboutSection = () => {
                   <span className="text-white text-sm font-bold">✓</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Proven Track Record</h4>
-                  <p className="text-gray-600">500+ successful projects and partnerships with businesses worldwide.</p>
+                  <h4 className="font-semibold text-gray-900 mb-1">Trusted & Safe</h4>
+                  <p className="text-gray-600">We prioritize safety and compliance, especially for kids' products, and never deal in firearms, adult content, or controlled substances.</p>
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <LocalizedClientLink href="/about">
+              <LocalizedClientLink href="/store">
                 <Button 
                   size="large"
                   className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0 px-8 py-3"
                 >
-                  Learn More About Us
+                  Shop Our Products
                 </Button>
               </LocalizedClientLink>
-              <LocalizedClientLink href="/contact">
-                <Button 
-                  variant="secondary"
-                  size="large"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-50 px-8 py-3"
+              <div className="flex gap-2">
+                <a 
+                  href="https://amazon.com/stores/sparkcore" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
                 >
-                  Get In Touch
-                </Button>
-              </LocalizedClientLink>
+                  <Button 
+                    variant="secondary"
+                    size="large"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3"
+                  >
+                    Amazon Store
+                  </Button>
+                </a>
+                <a 
+                  href="https://shop.tiktok.com/@sparkcore" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Button 
+                    variant="secondary"
+                    size="large"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50 px-6 py-3"
+                  >
+                    TikTok Shop
+                  </Button>
+                </a>
+              </div>
             </div>
           </div>
 
           {/* Visual Element */}
           <div className="relative">
             <div className="relative z-10 bg-white rounded-3xl p-8 shadow-2xl">
+              {/* Company Info */}
+              <div className="text-center mb-8">
+                <Heading level="h3" className="text-2xl font-bold text-gray-900 mb-4">
+                  SparkCore LLC at a Glance
+                </Heading>
+              </div>
+              
               {/* Stats */}
-              <div className="grid grid-cols-2 gap-8">
+              <div className="grid grid-cols-2 gap-6 mb-8">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-blue-600 mb-2">10+</div>
-                  <div className="text-gray-600 text-sm">Years Experience</div>
+                  <div className="text-3xl font-bold text-blue-600 mb-2">🇺🇸</div>
+                  <div className="text-gray-600 text-sm font-medium">U.S.-Based Company</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-600 mb-2">500+</div>
-                  <div className="text-gray-600 text-sm">Projects Completed</div>
+                  <div className="text-3xl font-bold text-purple-600 mb-2">3</div>
+                  <div className="text-gray-600 text-sm font-medium">Sales Platforms</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-indigo-600 mb-2">50+</div>
-                  <div className="text-gray-600 text-sm">Team Members</div>
+                  <div className="text-3xl font-bold text-indigo-600 mb-2">100%</div>
+                  <div className="text-gray-600 text-sm font-medium">Quality Tested</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-pink-600 mb-2">30+</div>
-                  <div className="text-gray-600 text-sm">Countries Served</div>
+                  <div className="text-3xl font-bold text-pink-600 mb-2">0</div>
+                  <div className="text-gray-600 text-sm font-medium">Prohibited Items</div>
                 </div>
               </div>
               
-              {/* Quote */}
-              <div className="mt-8 pt-8 border-t border-gray-100">
-                <blockquote className="text-gray-700 italic text-center">
-                  "Excellence in e-commerce is not just about technology; it's about understanding 
-                  people and creating experiences that matter."
-                </blockquote>
-                <div className="mt-4 text-center">
-                  <div className="font-semibold text-gray-900">Sarah Johnson</div>
-                  <div className="text-sm text-gray-600">CEO, SparkCore LLC</div>
+              {/* Platform Icons */}
+              <div className="border-t border-gray-100 pt-6">
+                <div className="text-center mb-4">
+                  <h4 className="font-semibold text-gray-900">Find Us On</h4>
+                </div>
+                <div className="flex justify-center space-x-6">
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-yellow-500 rounded-xl flex items-center justify-center mb-2">
+                      <span className="text-white font-bold text-sm">AMZ</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Amazon</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-pink-400 to-red-500 rounded-xl flex items-center justify-center mb-2">
+                      <span className="text-white font-bold text-sm">TT</span>
+                    </div>
+                    <span className="text-xs text-gray-600">TikTok Shop</span>
+                  </div>
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl flex items-center justify-center mb-2">
+                      <span className="text-white font-bold text-sm">SF</span>
+                    </div>
+                    <span className="text-xs text-gray-600">Shopify</span>
+                  </div>
                 </div>
               </div>
             </div>

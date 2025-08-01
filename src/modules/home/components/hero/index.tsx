@@ -20,7 +20,7 @@ const Hero = () => {
           {/* Company logo/name */}
           <div className="space-y-4">
             <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
-              <span className="text-sm font-medium text-gray-700">Welcome to the future of e-commerce</span>
+              <span className="text-sm font-medium text-gray-700">Quality Products for Everyday Life</span>
             </div>
             
             <Heading
@@ -34,51 +34,75 @@ const Hero = () => {
               level="h2"
               className="text-2xl md:text-3xl lg:text-4xl font-light text-gray-600 max-w-3xl mx-auto"
             >
-              Premium E-commerce Solutions That Drive Success
+              Discover Amazing Products for Home, Kids & Lifestyle
             </Heading>
           </div>
 
           {/* Description */}
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Transforming digital commerce through innovative technology, exceptional design, 
-            and unparalleled customer experiences. Your trusted partner in building the future of online retail.
+            We design, source, and sell carefully curated everyday consumer products that make life better. 
+            From home & living accessories to kids' items and lifestyle gadgets - all available on Amazon, TikTok Shop, and our store.
           </p>
 
-          {/* Stats or features */}
+          {/* Categories showcase */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
-              <div className="text-3xl font-bold text-blue-600 mb-2">500+</div>
-              <div className="text-gray-600">Happy Clients</div>
+              <div className="text-4xl mb-2">🏠</div>
+              <div className="text-lg font-semibold text-gray-800 mb-1">Home & Living</div>
+              <div className="text-gray-600 text-sm">Accessories that make your space beautiful</div>
             </div>
             <div className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
-              <div className="text-3xl font-bold text-purple-600 mb-2">99.9%</div>
-              <div className="text-gray-600">Uptime</div>
+              <div className="text-4xl mb-2">👶</div>
+              <div className="text-lg font-semibold text-gray-800 mb-1">Kids' Items</div>
+              <div className="text-gray-600 text-sm">Safe, fun products for little ones</div>
             </div>
             <div className="text-center p-6 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10">
-              <div className="text-3xl font-bold text-indigo-600 mb-2">24/7</div>
-              <div className="text-gray-600">Support</div>
+              <div className="text-4xl mb-2">🎯</div>
+              <div className="text-lg font-semibold text-gray-800 mb-1">Lifestyle Gadgets</div>
+              <div className="text-gray-600 text-sm">Smart solutions for modern living</div>
             </div>
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <LocalizedClientLink href="/store">
+          <div className="flex flex-col gap-4 justify-center items-center">
+            <LocalizedClientLink href="/store" className="w-full max-w-xs">
               <Button 
                 size="xlarge" 
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0 px-8 py-4 text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0 px-8 py-4 text-lg shadow-xl hover:shadow-2xl transition-all duration-300"
               >
-                Explore Our Solutions
+                Shop Our Products
               </Button>
             </LocalizedClientLink>
-            <LocalizedClientLink href="/about">
-              <Button 
-                variant="secondary" 
-                size="xlarge"
-                className="bg-white/10 backdrop-blur-sm border-white/20 text-gray-700 hover:bg-white/20 px-8 py-4 text-lg transition-all duration-300"
+            <div className="flex flex-col sm:flex-row gap-2 w-full max-w-xs">
+              <a 
+                href="https://amazon.com/stores/sparkcore" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex-1"
               >
-                Learn More About Us
-              </Button>
-            </LocalizedClientLink>
+                <Button 
+                  variant="secondary" 
+                  size="large"
+                  className="w-full bg-white/10 backdrop-blur-sm border-white/20 text-gray-700 hover:bg-white/20 px-4 py-3 transition-all duration-300"
+                >
+                  Amazon Store
+                </Button>
+              </a>
+              <a 
+                href="https://shop.tiktok.com/@sparkcore" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex-1"
+              >
+                <Button 
+                  variant="secondary" 
+                  size="large"
+                  className="w-full bg-white/10 backdrop-blur-sm border-white/20 text-gray-700 hover:bg-white/20 px-4 py-3 transition-all duration-300"
+                >
+                  TikTok Shop
+                </Button>
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -3,39 +3,39 @@ import { Heading } from "@medusajs/ui"
 const Features = () => {
   const features = [
     {
-      title: "Lightning Fast Performance",
-      description: "Optimized for speed with cutting-edge technology ensuring your customers enjoy seamless shopping experiences.",
-      icon: "⚡",
+      title: "Quality Assurance",
+      description: "Every product is carefully tested and sourced from trusted manufacturers to ensure the highest quality standards.",
+      icon: "✨",
       gradient: "from-yellow-400 to-orange-500"
     },
     {
-      title: "Secure & Reliable",
-      description: "Enterprise-grade security with 99.9% uptime guarantee. Your data and transactions are always protected.",
-      icon: "🔒",
+      title: "Fast Shipping",
+      description: "Quick and reliable delivery through Amazon Prime, TikTok Shop logistics, and our optimized fulfillment network.",
+      icon: "🚚",
       gradient: "from-green-400 to-blue-500"
     },
     {
-      title: "Mobile-First Design",
-      description: "Responsive designs that look perfect on any device, optimized for mobile commerce and user experience.",
-      icon: "📱",
+      title: "Customer First",
+      description: "Our dedicated customer service team ensures your satisfaction with every purchase and resolves any concerns quickly.",
+      icon: "❤️",
       gradient: "from-purple-400 to-pink-500"
     },
     {
-      title: "Analytics & Insights",
-      description: "Advanced analytics and reporting tools to help you understand your customers and grow your business.",
-      icon: "📊",
+      title: "Innovative Design",
+      description: "We design products that blend functionality with style, making everyday items both useful and beautiful.",
+      icon: "🎨",
       gradient: "from-blue-400 to-indigo-500"
     },
     {
-      title: "24/7 Expert Support",
-      description: "Round-the-clock technical support from our team of e-commerce experts and developers.",
-      icon: "🎧",
+      title: "Multi-Platform Presence",
+      description: "Shop where you love - find our products on Amazon, TikTok Shop, and our own Shopify store for maximum convenience.",
+      icon: "🛍️",
       gradient: "from-indigo-400 to-purple-500"
     },
     {
-      title: "Scalable Solutions",
-      description: "Grow without limits. Our infrastructure scales with your business from startup to enterprise.",
-      icon: "🚀",
+      title: "Safe & Trusted",
+      description: "We prioritize safety and compliance, ensuring all products meet strict safety standards and regulations.",
+      icon: "🛡️",
       gradient: "from-pink-400 to-red-500"
     }
   ]
@@ -46,17 +46,17 @@ const Features = () => {
         {/* Section Header */}
         <div className="text-center mb-20">
           <div className="inline-flex items-center px-4 py-2 bg-blue-50 rounded-full border border-blue-100 mb-6">
-            <span className="text-sm font-medium text-blue-700">Why Choose SparkCore LLC</span>
+            <span className="text-sm font-medium text-blue-700">Why Choose Our Products</span>
           </div>
           <Heading
             level="h2"
             className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
           >
-            Built for Modern Commerce
+            Quality You Can Trust
           </Heading>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We combine innovative technology with proven strategies to deliver e-commerce solutions 
-            that drive real results for businesses of all sizes.
+            From concept to your doorstep, we're committed to bringing you exceptional products 
+            that enhance your daily life and bring joy to your home.
           </p>
         </div>
 
@@ -94,11 +94,30 @@ const Features = () => {
           ))}
         </div>
 
-        {/* Call to Action */}
-        <div className="text-center mt-16">
-          <div className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 transition-colors duration-300 cursor-pointer">
-            <span className="font-medium">Ready to get started?</span>
-            <span className="text-xl">→</span>
+        {/* Product Categories Showcase */}
+        <div className="mt-20 text-center">
+          <Heading
+            level="h3"
+            className="text-2xl font-bold text-gray-900 mb-8"
+          >
+            Our Product Categories
+          </Heading>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            <div className="p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl">
+              <div className="text-5xl mb-4">🏠</div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Home & Living</h4>
+              <p className="text-gray-600 text-sm">Decorative accessories, organizers, and functional items for your home</p>
+            </div>
+            <div className="p-6 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl">
+              <div className="text-5xl mb-4">👶</div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Kids' Items</h4>
+              <p className="text-gray-600 text-sm">Safe, educational, and fun products designed specifically for children</p>
+            </div>
+            <div className="p-6 bg-gradient-to-br from-green-50 to-blue-50 rounded-2xl">
+              <div className="text-5xl mb-4">🎯</div>
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">Lifestyle Gadgets</h4>
+              <p className="text-gray-600 text-sm">Innovative gadgets that make daily tasks easier and more enjoyable</p>
+            </div>
           </div>
         </div>
       </div>

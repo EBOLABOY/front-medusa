@@ -9,7 +9,9 @@
       "Bash(ls:*)",
       "Bash(curl:*)",
       "Bash(rm -rf .next)",
-      "Bash(npx next:*)"
+      "Bash(npx next:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)"
     ],
     "deny": []
   }
