@@ -4,6 +4,8 @@ import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
 import Features from "@modules/home/components/features"
 import AboutSection from "@modules/home/components/about-section"
+import ProductCarousel from "@modules/home/components/product-carousel"
+import CategoryShowcase from "@modules/home/components/category-showcase"
 import { ErrorFallback } from "@modules/common/components/loading"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
@@ -30,6 +32,8 @@ export default async function Home(props: {
     return (
       <>
         <Hero />
+        <ProductCarousel />
+        <CategoryShowcase />
         <Features />
         <AboutSection />
         {collections && region && (
