@@ -12,121 +12,108 @@ export default async function Footer() {
   const productCategories = await listCategories()
 
   return (
-    <footer className="border-t border-ui-border-base w-full">
-      <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
-          <div>
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
-            >
-              SparkCore LLC
-            </LocalizedClientLink>
-          </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3">
-            {productCategories && productCategories?.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Categories
-                </span>
-                <ul
-                  className="grid grid-cols-1 gap-2"
-                  data-testid="footer-categories"
-                >
-                  {productCategories?.slice(0, 6).map((c) => {
-                    if (c.parent_category) {
-                      return
-                    }
-
-                    const children =
-                      c.category_children?.map((child) => ({
-                        name: child.name,
-                        handle: child.handle,
-                        id: child.id,
-                      })) || null
-
-                    return (
-                      <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
-                        key={c.id}
-                      >
-                        <LocalizedClientLink
-                          className={clx(
-                            "hover:text-ui-fg-base",
-                            children && "txt-small-plus"
-                          )}
-                          href={`/categories/${c.handle}`}
-                          data-testid="category-link"
-                        >
-                          {c.name}
-                        </LocalizedClientLink>
-                        {children && (
-                          <ul className="grid grid-cols-1 ml-3 gap-2">
-                            {children &&
-                              children.map((child) => (
-                                <li key={child.id}>
-                                  <LocalizedClientLink
-                                    className="hover:text-ui-fg-base"
-                                    href={`/categories/${child.handle}`}
-                                    data-testid="category-link"
-                                  >
-                                    {child.name}
-                                  </LocalizedClientLink>
-                                </li>
-                              ))}
-                          </ul>
-                        )}
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            )}
-            {collections && collections.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Collections
-                </span>
-                <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (collections?.length || 0) > 3,
-                    }
-                  )}
-                >
-                  {collections?.slice(0, 6).map((c) => (
+    <footer className="bg-gray-900 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="py-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Brand */}
+            <div className="md:col-span-1">
+              <LocalizedClientLink
+                href="/"
+                className="text-2xl font-bold text-white hover:text-gray-300 transition-colors"
+              >
+                SparkCore
+              </LocalizedClientLink>
+              <p className="mt-4 text-gray-400 text-sm leading-relaxed">
+                Quality everyday products for home, kids & lifestyle.
+                Proudly based in the United States.
+              </p>
+            </div>
+            {/* Shop */}
+            <div>
+              <h3 className="text-white font-semibold mb-4">Shop</h3>
+              <ul className="space-y-3">
+                <li>
+                  <LocalizedClientLink
+                    href="/store"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
+                  >
+                    All Products
+                  </LocalizedClientLink>
+                </li>
+                {productCategories?.slice(0, 4).map((c) => {
+                  if (c.parent_category) return null
+                  return (
                     <li key={c.id}>
                       <LocalizedClientLink
-                        className="hover:text-ui-fg-base"
-                        href={`/collections/${c.handle}`}
+                        className="text-gray-400 hover:text-white transition-colors text-sm"
+                        href={`/categories/${c.handle}`}
+                        data-testid="category-link"
                       >
-                        {c.title}
+                        {c.name}
                       </LocalizedClientLink>
                     </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Company</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
+                  )
+                })}
+                {collections?.slice(0, 2).map((c) => (
+                  <li key={c.id}>
+                    <LocalizedClientLink
+                      className="text-gray-400 hover:text-white transition-colors text-sm"
+                      href={`/collections/${c.handle}`}
+                    >
+                      {c.title}
+                    </LocalizedClientLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <h3 className="text-white font-semibold mb-4">Company</h3>
+              <ul className="space-y-3">
                 <li>
                   <LocalizedClientLink
                     href="/about"
-                    className="hover:text-ui-fg-base"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
                   >
                     About Us
                   </LocalizedClientLink>
                 </li>
                 <li>
+                  <LocalizedClientLink
+                    href="/contact"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
+                  >
+                    Contact Us
+                  </LocalizedClientLink>
+                </li>
+                <li>
+                  <LocalizedClientLink
+                    href="/account"
+                    className="text-gray-400 hover:text-white transition-colors text-sm"
+                  >
+                    My Account
+                  </LocalizedClientLink>
+                </li>
+              </ul>
+            </div>
+
+            {/* External Stores */}
+            <div>
+              <h3 className="text-white font-semibold mb-4">Shop Elsewhere</h3>
+              <ul className="space-y-3">
+                <li>
                   <a
                     href="https://amazon.com/stores/sparkcore"
                     target="_blank"
                     rel="noreferrer"
-                    className="hover:text-ui-fg-base"
+                    className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2"
                   >
-                    Amazon Store
+                    <span>Amazon Store</span>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
                   </a>
                 </li>
                 <li>
@@ -134,28 +121,27 @@ export default async function Footer() {
                     href="https://shop.tiktok.com/@sparkcore"
                     target="_blank"
                     rel="noreferrer"
-                    className="hover:text-ui-fg-base"
+                    className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2"
                   >
-                    TikTok Shop
+                    <span>TikTok Shop</span>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
                   </a>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    href="/contact"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Contact Us
-                  </LocalizedClientLink>
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
-            © {new Date().getFullYear()} SparkCore LLC. All rights reserved.
-          </Text>
-          <MedusaCTA />
+
+        {/* Bottom section */}
+        <div className="border-t border-gray-800 py-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <Text className="text-gray-400 text-sm">
+              © {new Date().getFullYear()} SparkCore LLC. All rights reserved.
+            </Text>
+            <MedusaCTA />
+          </div>
         </div>
       </div>
     </footer>

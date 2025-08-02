@@ -37,60 +37,93 @@ export default function CategoryTemplate({
   getParents(category)
 
   return (
-    <div
-      className="flex flex-col small:flex-row small:items-start py-6 content-container"
-      data-testid="category-container"
-    >
-      <RefinementList sortBy={sort} data-testid="sort-by-container" />
-      <div className="w-full">
-        <div className="flex flex-row mb-8 text-2xl-semi gap-4">
-          {parents &&
-            parents.map((parent) => (
-              <span key={parent.id} className="text-ui-fg-subtle">
-                <LocalizedClientLink
-                  className="mr-4 hover:text-black"
-                  href={`/categories/${parent.handle}`}
-                  data-testid="sort-by-link"
-                >
-                  {parent.name}
-                </LocalizedClientLink>
-                /
-              </span>
-            ))}
-          <h1 data-testid="category-page-title">{category.name}</h1>
-        </div>
-        {category.description && (
-          <div className="mb-8 text-base-regular">
-            <p>{category.description}</p>
-          </div>
-        )}
-        {category.category_children && (
-          <div className="mb-8 text-base-large">
-            <ul className="grid grid-cols-1 gap-2">
-              {category.category_children?.map((c) => (
-                <li key={c.id}>
-                  <InteractiveLink href={`/categories/${c.handle}`}>
-                    {c.name}
-                  </InteractiveLink>
-                </li>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          {/* Breadcrumb */}
+          <nav className="flex items-center space-x-2 text-sm text-gray-500 mb-4">
+            <LocalizedClientLink href="/" className="hover:text-black transition-colors">
+              Home
+            </LocalizedClientLink>
+            {parents &&
+              parents.reverse().map((parent) => (
+                <span key={parent.id} className="flex items-center space-x-2">
+                  <span>/</span>
+                  <LocalizedClientLink
+                    className="hover:text-black transition-colors"
+                    href={`/categories/${parent.handle}`}
+                    data-testid="breadcrumb-link"
+                  >
+                    {parent.name}
+                  </LocalizedClientLink>
+                </span>
               ))}
-            </ul>
+            <span>/</span>
+            <span className="text-black font-medium">{category.name}</span>
+          </nav>
+
+          {/* Category Title */}
+          <h1 className="text-3xl font-bold text-gray-900 mb-4" data-testid="category-page-title">
+            {category.name}
+          </h1>
+
+          {/* Category Description */}
+          {category.description && (
+            <p className="text-lg text-gray-600 max-w-3xl">
+              {category.description}
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" data-testid="category-container">
+        {/* Subcategories */}
+        {category.category_children && category.category_children.length > 0 && (
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">Subcategories</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {category.category_children.map((c) => (
+                <LocalizedClientLink
+                  key={c.id}
+                  href={`/categories/${c.handle}`}
+                  className="bg-white p-4 rounded-lg border border-gray-200 hover:border-gray-300 hover:shadow-sm transition-all"
+                >
+                  <span className="text-sm font-medium text-gray-900">{c.name}</span>
+                </LocalizedClientLink>
+              ))}
+            </div>
           </div>
         )}
-        <Suspense
-          fallback={
-            <SkeletonProductGrid
-              numberOfProducts={category.products?.length ?? 8}
-            />
-          }
-        >
-          <PaginatedProducts
-            sortBy={sort}
-            page={pageNumber}
-            categoryId={category.id}
-            countryCode={countryCode}
-          />
-        </Suspense>
+
+        {/* Products Section */}
+        <div className="flex flex-col lg:flex-row lg:items-start gap-8">
+          {/* Sidebar */}
+          <div className="lg:w-64 lg:flex-shrink-0">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <RefinementList sortBy={sort} data-testid="sort-by-container" />
+            </div>
+          </div>
+
+          {/* Products Grid */}
+          <div className="flex-1">
+            <Suspense
+              fallback={
+                <SkeletonProductGrid
+                  numberOfProducts={category.products?.length ?? 8}
+                />
+              }
+            >
+              <PaginatedProducts
+                sortBy={sort}
+                page={pageNumber}
+                categoryId={category.id}
+                countryCode={countryCode}
+              />
+            </Suspense>
+          </div>
+        </div>
       </div>
     </div>
   )
