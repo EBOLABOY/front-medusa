@@ -1,4 +1,4 @@
 module.exports = {
-  // Temporarily use minimal config to avoid Next.js ESLint issues
+  extends: ["next/core-web-vitals"],
   rules: {}
 };
