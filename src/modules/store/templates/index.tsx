@@ -19,22 +19,43 @@ const StoreTemplate = ({
   const sort = sortBy || "created_at"
 
   return (
-    <div
-      className="flex flex-col small:flex-row small:items-start py-6 content-container"
-      data-testid="category-container"
-    >
-      <RefinementList sortBy={sort} />
-      <div className="w-full">
-        <div className="mb-8 text-2xl-semi">
-          <h1 data-testid="store-page-title">All products</h1>
+    <div className="bg-white min-h-screen">
+      {/* CASETiFY-style header - 更简洁 */}
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <h1
+              className="text-xl font-medium text-gray-900"
+              data-testid="store-page-title"
+            >
+              All Products
+            </h1>
+            <div className="text-xs text-gray-500">
+              {/* 产品数量会在这里显示 */}
+            </div>
+          </div>
         </div>
-        <Suspense fallback={<SkeletonProductGrid />}>
-          <PaginatedProducts
-            sortBy={sort}
-            page={pageNumber}
-            countryCode={countryCode}
-          />
-        </Suspense>
+      </div>
+
+      <div
+        className="flex flex-col lg:flex-row lg:items-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6"
+        data-testid="category-container"
+      >
+        {/* Sidebar - 更紧凑 */}
+        <div className="lg:w-56 lg:flex-shrink-0 mb-6 lg:mb-0 lg:mr-6">
+          <RefinementList sortBy={sort} />
+        </div>
+
+        {/* Main content */}
+        <div className="flex-1">
+          <Suspense fallback={<SkeletonProductGrid />}>
+            <PaginatedProducts
+              sortBy={sort}
+              page={pageNumber}
+              countryCode={countryCode}
+            />
+          </Suspense>
+        </div>
       </div>
     </div>
   )

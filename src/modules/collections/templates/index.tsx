@@ -21,26 +21,41 @@ export default function CollectionTemplate({
   const sort = sortBy || "created_at"
 
   return (
-    <div className="flex flex-col small:flex-row small:items-start py-6 content-container">
-      <RefinementList sortBy={sort} />
-      <div className="w-full">
-        <div className="mb-8 text-2xl-semi">
-          <h1>{collection.title}</h1>
+    <div className="bg-white min-h-screen">
+      {/* Collection header */}
+      <div className="bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center">
+            <h1 className="text-3xl font-medium text-gray-900">
+              {collection.title}
+            </h1>
+          </div>
         </div>
-        <Suspense
-          fallback={
-            <SkeletonProductGrid
-              numberOfProducts={collection.products?.length}
+      </div>
+
+      <div className="flex flex-col lg:flex-row lg:items-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Sidebar */}
+        <div className="lg:w-64 lg:flex-shrink-0 mb-8 lg:mb-0 lg:mr-8">
+          <RefinementList sortBy={sort} />
+        </div>
+
+        {/* Main content */}
+        <div className="flex-1">
+          <Suspense
+            fallback={
+              <SkeletonProductGrid
+                numberOfProducts={collection.products?.length}
+              />
+            }
+          >
+            <PaginatedProducts
+              sortBy={sort}
+              page={pageNumber}
+              collectionId={collection.id}
+              countryCode={countryCode}
             />
-          }
-        >
-          <PaginatedProducts
-            sortBy={sort}
-            page={pageNumber}
-            collectionId={collection.id}
-            countryCode={countryCode}
-          />
-        </Suspense>
+          </Suspense>
+        </div>
       </div>
     </div>
   )

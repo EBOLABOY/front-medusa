@@ -4,51 +4,86 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 
 const Hero = () => {
   return (
-    <div className="relative h-screen w-full overflow-hidden bg-white">
-      {/* CASETiFY-style dynamic video background simulation */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white">
-        {/* Animated background elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-r from-pink-400 to-orange-400 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
+    <div className="relative min-h-screen w-full overflow-hidden bg-white">
+      {/* CASETiFY-style hero image background */}
+      <div className="absolute inset-0">
+        <div className="w-full h-full bg-gradient-to-br from-gray-50 via-white to-gray-100">
+          {/* Product showcase background */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-5">
+            <div className="grid grid-cols-3 gap-8 transform rotate-12 scale-150">
+              {[...Array(9)].map((_, i) => (
+                <div key={i} className="w-32 h-32 bg-black rounded-lg"></div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-      
-      {/* CASETiFY-style极简主内容 */}
-      <div className="relative z-10 flex flex-col justify-center items-center text-center h-full px-4 max-w-4xl mx-auto">
-        <div className="space-y-12 animate-slide-up">
-          {/* 极简品牌展示 - 完全模仿CASETiFY */}
-          <div className="space-y-8">
-            <div className="inline-flex items-center px-6 py-2 bg-black text-white rounded-full font-bold text-sm tracking-widest uppercase">
-              <span>Show Your Colors</span>
-            </div>
 
-            <Heading
-              level="h1"
-              className="text-6xl md:text-8xl lg:text-9xl font-black text-black leading-none tracking-tight"
-            >
-              SparkCore
-            </Heading>
+      {/* Main hero content */}
+      <div className="relative z-10 flex flex-col justify-center items-center text-center min-h-screen px-4 py-20">
+        <div className="max-w-6xl mx-auto space-y-16">
+          {/* Hero badge */}
+          <div className="inline-flex items-center px-4 py-2 bg-black text-white rounded-full text-sm font-medium tracking-wide">
+            <span>Premium Quality • Fast Shipping</span>
           </div>
 
-          {/* 极简CTA - 只保留主要按钮 */}
-          <div className="flex flex-col gap-6 justify-center items-center">
+          {/* Main headline */}
+          <div className="space-y-6">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-black leading-tight tracking-tight">
+              Express Your
+              <br />
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Style
+              </span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Discover premium cases, accessories, and lifestyle products designed to protect and personalize your everyday essentials.
+            </p>
+          </div>
+
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <LocalizedClientLink href="/store">
               <Button
                 size="large"
-                className="bg-black hover:bg-gray-800 text-white border-0 px-12 py-4 text-xl font-bold rounded-full transition-all duration-300 hover:scale-105"
+                className="bg-black hover:bg-gray-800 text-white border-0 px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300 hover:scale-105 shadow-lg"
               >
-                Shop Now
+                Shop Collection
               </Button>
             </LocalizedClientLink>
+            <LocalizedClientLink href="/store?featured=true">
+              <Button
+                variant="secondary"
+                size="large"
+                className="border-2 border-black text-black hover:bg-black hover:text-white px-8 py-4 text-lg font-semibold rounded-lg transition-all duration-300"
+              >
+                View Featured
+              </Button>
+            </LocalizedClientLink>
+          </div>
+
+          {/* Trust indicators */}
+          <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span>Free Shipping</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+              <span>30-Day Returns</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+              <span>Premium Quality</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* CASETiFY风格滚动指示器 */}
+      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border border-gray-400 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-gray-400 rounded-full mt-2"></div>
+        <div className="w-6 h-10 border-2 border-gray-300 rounded-full flex justify-center">
+          <div className="w-1 h-3 bg-gray-400 rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>
     </div>

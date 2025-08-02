@@ -29,15 +29,15 @@ export default function ProductPrice({
   return (
     <div className="space-y-2">
       {/* Main Price Display */}
-      <div className="flex items-baseline space-x-3">
+      <div className="flex items-baseline space-x-2">
         <span
-          className={clx("text-3xl font-bold", {
-            "text-casetify-accent-blue": selectedPrice.price_type === "sale",
-            "text-casetify-primary": selectedPrice.price_type !== "sale",
+          className={clx("text-2xl font-medium", {
+            "text-red-600": selectedPrice.price_type === "sale",
+            "text-gray-900": selectedPrice.price_type !== "sale",
           })}
         >
           {!variant && (
-            <span className="text-lg font-normal text-casetify-neutral-600 mr-1">
+            <span className="text-base font-normal text-gray-500 mr-1">
               From
             </span>
           )}
@@ -49,45 +49,41 @@ export default function ProductPrice({
           </span>
         </span>
 
-        {/* Sale Badge */}
+        {/* Original Price (if on sale) */}
         {selectedPrice.price_type === "sale" && (
-          <div className="bg-casetify-accent-pink text-white px-2 py-1 rounded-full text-sm font-semibold">
-            SALE
-          </div>
+          <span
+            className="line-through text-gray-400 text-lg"
+            data-testid="original-product-price"
+            data-value={selectedPrice.original_price_number}
+          >
+            {selectedPrice.original_price}
+          </span>
         )}
       </div>
 
-      {/* Sale Price Details */}
+      {/* Sale Badge */}
       {selectedPrice.price_type === "sale" && (
-        <div className="space-y-1">
-          <div className="flex items-center space-x-2">
-            <span className="text-casetify-neutral-500 text-sm">Original:</span>
-            <span
-              className="line-through text-casetify-neutral-500 text-lg"
-              data-testid="original-product-price"
-              data-value={selectedPrice.original_price_number}
-            >
-              {selectedPrice.original_price}
-            </span>
-          </div>
-          <div className="inline-flex items-center bg-casetify-accent-green text-white px-3 py-1 rounded-full text-sm font-semibold">
-            <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 10.586 14.586 7H12z" clipRule="evenodd" />
-            </svg>
-            Save {selectedPrice.percentage_diff}%
-          </div>
+        <div className="flex items-center space-x-2">
+          <span className="bg-red-100 text-red-800 text-xs font-medium px-2 py-1 rounded">
+            SALE
+          </span>
+          <span className="text-sm text-gray-600">Limited time offer</span>
         </div>
       )}
 
       {/* Payment Options */}
-      <div className="text-sm text-casetify-neutral-600 space-y-1">
-        <div className="flex items-center">
-          <span className="font-medium">💳</span>
-          <span className="ml-2">Pay in 4 interest-free installments</span>
+      <div className="space-y-1 text-sm text-gray-600">
+        <div className="flex items-center space-x-2">
+          <span>💳</span>
+          <span>4 interest-free payments of ${(selectedPrice.calculated_price_number / 4).toFixed(2)}</span>
         </div>
-        <div className="flex items-center">
-          <span className="font-medium">🚚</span>
-          <span className="ml-2">Free shipping on orders over $50</span>
+        <div className="flex items-center space-x-2">
+          <span>🚚</span>
+          <span>Free shipping on orders over $50</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <span>🔒</span>
+          <span>Secure checkout</span>
         </div>
       </div>
     </div>

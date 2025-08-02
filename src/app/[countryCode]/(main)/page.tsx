@@ -6,6 +6,9 @@ import Features from "@modules/home/components/features"
 import AboutSection from "@modules/home/components/about-section"
 import ProductCarousel from "@modules/home/components/product-carousel"
 import CategoryShowcase from "@modules/home/components/category-showcase"
+import FeaturedShowcase from "@modules/home/components/featured-showcase"
+import BrandStory from "@modules/home/components/brand-story"
+import SocialProof from "@modules/home/components/social-proof"
 import { ErrorFallback } from "@modules/common/components/loading"
 import { listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
@@ -32,10 +35,12 @@ export default async function Home(props: {
     return (
       <>
         <Hero />
+        <FeaturedShowcase />
         <ProductCarousel />
+        <BrandStory />
         <CategoryShowcase />
+        <SocialProof />
         <Features />
-        <AboutSection />
         {collections && region && (
           <div className="py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -44,7 +49,7 @@ export default async function Home(props: {
                   Explore Our Product Collections
                 </h2>
                 <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                  Discover our carefully curated selection of premium products designed 
+                  Discover our carefully curated selection of premium products designed
                   to meet your every need.
                 </p>
               </div>
@@ -61,21 +66,21 @@ export default async function Home(props: {
                 Coming Soon
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                We're preparing our amazing product collections for you. 
+                We're preparing our amazing product collections for you.
                 In the meantime, check out our stores on other platforms!
               </p>
               <div className="flex justify-center gap-4 mt-8">
-                <a 
-                  href="https://amazon.com/stores/sparkcore" 
-                  target="_blank" 
+                <a
+                  href="https://amazon.com/stores/sparkcore"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="bg-gradient-to-r from-orange-500 to-yellow-500 text-white px-6 py-3 rounded-lg hover:from-orange-600 hover:to-yellow-600 transition-all duration-300"
                 >
                   Shop on Amazon
                 </a>
-                <a 
-                  href="https://shop.tiktok.com/@sparkcore" 
-                  target="_blank" 
+                <a
+                  href="https://shop.tiktok.com/@sparkcore"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="bg-gradient-to-r from-pink-500 to-red-500 text-white px-6 py-3 rounded-lg hover:from-pink-600 hover:to-red-600 transition-all duration-300"
                 >
@@ -85,6 +90,7 @@ export default async function Home(props: {
             </div>
           </div>
         )}
+        <AboutSection />
       </>
     )
   } catch (error) {
