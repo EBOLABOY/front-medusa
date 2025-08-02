@@ -34,6 +34,8 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
+  const [addedToCart, setAddedToCart] = useState(false)
+  const [addError, setAddError] = useState<string | null>(null)
   const countryCode = useParams().countryCode as string
 
   // If there is only 1 variant, preselect the options
@@ -99,19 +101,42 @@ export default function ProductActions({
 
   const inView = useIntersection(actionsRef, "0px")
 
-  // add the selected variant to the cart
+  // add the selected variant to the cart with optimistic UI
   const handleAddToCart = async () => {
     if (!selectedVariant?.id) return null
 
+    // Optimistic UI: immediately show success state
     setIsAdding(true)
+    setAddError(null)
 
-    await addToCart({
-      variantId: selectedVariant.id,
-      quantity: 1,
-      countryCode,
-    })
+    // Show success immediately for better UX
+    setTimeout(() => {
+      setAddedToCart(true)
+      setIsAdding(false)
+    }, 100)
 
-    setIsAdding(false)
+    try {
+      await addToCart({
+        variantId: selectedVariant.id,
+        quantity: 1,
+        countryCode,
+      })
+
+      // Keep success state for 2 seconds
+      setTimeout(() => {
+        setAddedToCart(false)
+      }, 2000)
+    } catch (error) {
+      // Revert optimistic state on error
+      setAddedToCart(false)
+      setIsAdding(false)
+      setAddError("Failed to add to cart. Please try again.")
+
+      // Clear error after 3 seconds
+      setTimeout(() => {
+        setAddError(null)
+      }, 3000)
+    }
   }
 
   return (
@@ -151,21 +176,44 @@ export default function ProductActions({
               !selectedVariant ||
               !!disabled ||
               isAdding ||
-              !isValidVariant
+              !isValidVariant ||
+              addedToCart
             }
             variant="primary"
-            className="w-full h-11 text-sm font-medium bg-black hover:bg-gray-800 text-white transition-colors duration-200"
-            isLoading={isAdding}
+            className={`w-full h-11 text-sm font-medium transition-all duration-200 ${
+              addedToCart
+                ? "bg-green-600 hover:bg-green-700 text-white"
+                : addError
+                  ? "bg-red-600 hover:bg-red-700 text-white"
+                  : "bg-black hover:bg-gray-800 text-white"
+            }`}
+            isLoading={isAdding && !addedToCart}
             data-testid="add-product-button"
           >
-            {!selectedVariant && !options
-              ? "Select variant"
-              : !inStock || !isValidVariant
-              ? "Out of stock"
-              : isAdding
-              ? "Adding..."
-              : "Add to cart"}
+            {addedToCart ? (
+              <span className="flex items-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+                Added to cart!
+              </span>
+            ) : addError ? (
+              "Try again"
+            ) : !selectedVariant && !options ? (
+              "Select variant"
+            ) : !inStock || !isValidVariant ? (
+              "Out of stock"
+            ) : isAdding ? (
+              "Adding..."
+            ) : (
+              "Add to cart"
+            )}
           </Button>
+
+          {/* Error message */}
+          {addError && (
+            <p className="text-sm text-red-600 text-center">{addError}</p>
+          )}
 
           {/* Simple Secondary Actions */}
           <div className="flex space-x-2 text-xs">
