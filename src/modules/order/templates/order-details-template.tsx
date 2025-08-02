@@ -18,26 +18,46 @@ const OrderDetailsTemplate: React.FC<OrderDetailsTemplateProps> = ({
   order,
 }) => {
   return (
-    <div className="flex flex-col justify-center gap-y-4">
-      <div className="flex gap-2 justify-between items-center">
-        <h1 className="text-2xl-semi">Order details</h1>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+        <h1 className="text-2xl font-semibold text-gray-900">Order Details</h1>
         <LocalizedClientLink
           href="/account/orders"
-          className="flex gap-2 items-center text-ui-fg-subtle hover:text-ui-fg-base"
+          className="flex gap-2 items-center text-sm text-gray-600 hover:text-black transition-colors"
           data-testid="back-to-overview-button"
         >
-          <XMark /> Back to overview
+          <XMark /> Back to Orders
         </LocalizedClientLink>
       </div>
-      <div
-        className="flex flex-col gap-4 h-full bg-white w-full"
-        data-testid="order-details-container"
-      >
-        <OrderDetails order={order} showStatus />
-        <Items order={order} />
-        <ShippingDetails order={order} />
-        <OrderSummary order={order} />
-        <Help />
+
+      {/* Content Cards */}
+      <div className="space-y-6" data-testid="order-details-container">
+        {/* Order Status & Details */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <OrderDetails order={order} showStatus />
+        </div>
+
+        {/* Order Items */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">Items Ordered</h2>
+          <Items order={order} />
+        </div>
+
+        {/* Shipping & Summary */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <ShippingDetails order={order} />
+          </div>
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <OrderSummary order={order} />
+          </div>
+        </div>
+
+        {/* Help Section */}
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <Help />
+        </div>
       </div>
     </div>
   )

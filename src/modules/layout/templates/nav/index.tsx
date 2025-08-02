@@ -6,6 +6,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import CartButton from "@modules/layout/components/cart-button"
 import SideMenu from "@modules/layout/components/side-menu"
 import MegaMenu from "@modules/layout/components/mega-menu"
+import SearchButton from "@modules/layout/components/search-button"
 
 export default async function Nav() {
   const regions = await listRegions().then((regions: StoreRegion[]) => regions)
@@ -52,8 +53,9 @@ export default async function Nav() {
           </div>
 
           {/* Right side actions */}
-          <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
-            <div className="hidden lg:flex items-center gap-x-6">
+          <div className="flex items-center gap-x-4 h-full flex-1 basis-0 justify-end">
+            <div className="hidden lg:flex items-center gap-x-4">
+              <SearchButton />
               <LocalizedClientLink
                 className="text-sm font-medium text-gray-700 hover:text-black transition-colors py-2"
                 href="/account"
@@ -61,6 +63,9 @@ export default async function Nav() {
               >
                 Account
               </LocalizedClientLink>
+            </div>
+            <div className="lg:hidden">
+              <SearchButton />
             </div>
             <Suspense
               fallback={
