@@ -8,34 +8,34 @@ export default function CheckoutLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="w-full bg-white relative small:min-h-screen">
-      <div className="h-16 bg-white border-b ">
-        <nav className="flex h-full items-center content-container justify-between">
+    <div className="w-full bg-gray-50 relative min-h-screen">
+      <div className="h-20 bg-white border-b border-gray-200 shadow-sm">
+        <nav className="flex h-full items-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 justify-between">
           <LocalizedClientLink
             href="/cart"
-            className="text-small-semi text-ui-fg-base flex items-center gap-x-2 uppercase flex-1 basis-0"
+            className="text-sm font-medium text-gray-700 hover:text-black flex items-center gap-x-2 transition-colors"
             data-testid="back-to-cart-link"
           >
             <ChevronDown className="rotate-90" size={16} />
-            <span className="mt-px hidden small:block txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base ">
-              Back to shopping cart
+            <span className="hidden sm:block">
+              Back to Cart
             </span>
-            <span className="mt-px block small:hidden txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base">
+            <span className="block sm:hidden">
               Back
             </span>
           </LocalizedClientLink>
           <LocalizedClientLink
             href="/"
-            className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
+            className="text-xl font-bold text-black hover:text-gray-700 transition-colors"
             data-testid="store-link"
           >
-            Medusa Store
+            SparkCore
           </LocalizedClientLink>
           <div className="flex-1 basis-0" />
         </nav>
       </div>
       <div className="relative" data-testid="checkout-container">{children}</div>
-      <div className="py-4 w-full flex items-center justify-center">
+      <div className="py-6 w-full flex items-center justify-center bg-white border-t border-gray-200">
         <MedusaCTA />
       </div>
     </div>

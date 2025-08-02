@@ -107,18 +107,22 @@ const AccountNav = ({
           </>
         )}
       </div>
-      <div className="hidden small:block" data-testid="account-nav">
+      <div className="hidden lg:block" data-testid="account-nav">
         <div>
-          <div className="pb-4">
-            <h3 className="text-base-semi">Account</h3>
+          <div className="pb-6 border-b border-gray-200">
+            <h3 className="text-lg font-semibold text-gray-900">
+              Hello, {customer?.first_name}
+            </h3>
+            <p className="text-sm text-gray-600 mt-1">{customer?.email}</p>
           </div>
-          <div className="text-base-regular">
-            <ul className="flex mb-0 justify-start items-start flex-col gap-y-4">
+          <div className="pt-6">
+            <ul className="space-y-2">
               <li>
                 <AccountNavLink
                   href="/account"
                   route={route!}
                   data-testid="overview-link"
+                  icon={<User size={18} />}
                 >
                   Overview
                 </AccountNavLink>
@@ -128,6 +132,7 @@ const AccountNav = ({
                   href="/account/profile"
                   route={route!}
                   data-testid="profile-link"
+                  icon={<User size={18} />}
                 >
                   Profile
                 </AccountNavLink>
@@ -137,6 +142,7 @@ const AccountNav = ({
                   href="/account/addresses"
                   route={route!}
                   data-testid="addresses-link"
+                  icon={<MapPin size={18} />}
                 >
                   Addresses
                 </AccountNavLink>
@@ -146,16 +152,19 @@ const AccountNav = ({
                   href="/account/orders"
                   route={route!}
                   data-testid="orders-link"
+                  icon={<Package size={18} />}
                 >
                   Orders
                 </AccountNavLink>
               </li>
-              <li className="text-grey-700">
+              <li className="pt-4 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={handleLogout}
+                  className="flex items-center gap-3 text-sm text-gray-600 hover:text-red-600 transition-colors w-full py-2"
                   data-testid="logout-button"
                 >
+                  <ArrowRightOnRectangle />
                   Log out
                 </button>
               </li>
@@ -171,6 +180,7 @@ type AccountNavLinkProps = {
   href: string
   route: string
   children: React.ReactNode
+  icon?: React.ReactNode
   "data-testid"?: string
 }
 
@@ -178,6 +188,7 @@ const AccountNavLink = ({
   href,
   route,
   children,
+  icon,
   "data-testid": dataTestId,
 }: AccountNavLinkProps) => {
   const { countryCode }: { countryCode: string } = useParams()
@@ -186,11 +197,16 @@ const AccountNavLink = ({
   return (
     <LocalizedClientLink
       href={href}
-      className={clx("text-ui-fg-subtle hover:text-ui-fg-base", {
-        "text-ui-fg-base font-semibold": active,
-      })}
+      className={clx(
+        "flex items-center gap-3 text-sm py-2 px-3 rounded-lg transition-colors",
+        {
+          "bg-black text-white": active,
+          "text-gray-600 hover:text-black hover:bg-gray-50": !active,
+        }
+      )}
       data-testid={dataTestId}
     >
+      {icon}
       {children}
     </LocalizedClientLink>
   )
