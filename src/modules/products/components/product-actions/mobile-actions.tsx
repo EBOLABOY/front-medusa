@@ -70,33 +70,49 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           leaveTo="opacity-0"
         >
           <div
-            className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200"
+            className="bg-white/95 backdrop-blur-lg flex flex-col gap-y-4 justify-center items-center p-6 h-full w-full border-t border-casetify-neutral-200 shadow-2xl"
             data-testid="mobile-actions"
           >
-            <div className="flex items-center gap-x-2">
-              <span data-testid="mobile-title">{product.title}</span>
-              <span>—</span>
-              {selectedPrice ? (
-                <div className="flex items-end gap-x-2 text-ui-fg-base">
-                  {selectedPrice.price_type === "sale" && (
-                    <p>
-                      <span className="line-through text-small-regular">
+            {/* Product Info */}
+            <div className="flex items-center justify-between w-full">
+              <div className="flex-1">
+                <h3 className="font-bold text-casetify-primary text-lg truncate" data-testid="mobile-title">
+                  {product.title}
+                </h3>
+                {selectedPrice && (
+                  <div className="flex items-center gap-x-3 mt-1">
+                    {selectedPrice.price_type === "sale" && (
+                      <span className="line-through text-casetify-neutral-500 text-sm">
                         {selectedPrice.original_price}
                       </span>
-                    </p>
-                  )}
-                  <span
-                    className={clx({
-                      "text-ui-fg-interactive":
-                        selectedPrice.price_type === "sale",
-                    })}
-                  >
-                    {selectedPrice.calculated_price}
-                  </span>
-                </div>
-              ) : (
-                <div></div>
-              )}
+                    )}
+                    <span
+                      className={clx("font-bold text-xl", {
+                        "text-casetify-accent-blue": selectedPrice.price_type === "sale",
+                        "text-casetify-primary": selectedPrice.price_type !== "sale",
+                      })}
+                    >
+                      {selectedPrice.calculated_price}
+                    </span>
+                    {selectedPrice.price_type === "sale" && (
+                      <span className="bg-casetify-accent-pink text-white px-2 py-1 rounded-full text-xs font-semibold">
+                        SALE
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Stock Status */}
+              <div className="flex items-center">
+                <div className={clx("w-3 h-3 rounded-full mr-2", {
+                  "bg-casetify-accent-green": inStock,
+                  "bg-casetify-neutral-400": !inStock,
+                })}></div>
+                <span className="text-sm font-medium text-casetify-neutral-600">
+                  {inStock ? "In Stock" : "Out of Stock"}
+                </span>
+              </div>
             </div>
             <div className={clx("grid grid-cols-2 w-full gap-x-4", {
               "!grid-cols-1": isSimple
@@ -110,7 +126,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                 <div className="flex items-center justify-between w-full">
                   <span>
                     {variant
-                      ? Object.values(options).join(" / ")
+                        ? Object.values(options).join(" / ")
                       : "Select Options"}
                   </span>
                   <ChevronDown />

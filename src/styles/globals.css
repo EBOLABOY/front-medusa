@@ -109,4 +109,203 @@
   .text-3xl-semi {
     @apply text-[32px] leading-[44px] font-semibold;
   }
+
+  /* CASETiFY-inspired animations and effects */
+  .casetify-hover-lift {
+    @apply transition-all duration-300 ease-out hover:transform hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .casetify-hover-scale {
+    @apply transition-transform duration-300 ease-out hover:scale-105;
+  }
+
+  .casetify-fade-in {
+    animation: casetifyFadeIn 0.6s ease-out forwards;
+  }
+
+  .casetify-slide-up {
+    animation: casetifySlideUp 0.8s ease-out forwards;
+  }
+
+  .casetify-bounce-in {
+    animation: casetifyBounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  }
+
+  .casetify-gradient-text {
+    @apply bg-gradient-to-r from-casetify-accent-blue via-casetify-accent-purple to-casetify-accent-pink bg-clip-text text-transparent;
+  }
+
+  .casetify-glass-effect {
+    @apply bg-white/80 backdrop-blur-lg border border-white/20 shadow-xl;
+  }
+
+  .casetify-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .casetify-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 2s infinite;
+  }
+
+  .casetify-pulse-ring {
+    @apply relative;
+  }
+
+  .casetify-pulse-ring::before {
+    content: '';
+    @apply absolute inset-0 rounded-full border-2 border-casetify-accent-blue animate-ping;
+  }
+
+  /* Product card hover effects */
+  .product-card {
+    @apply transition-all duration-500 ease-out;
+  }
+
+  .product-card:hover {
+    @apply transform -translate-y-2 shadow-2xl;
+  }
+
+  .product-card:hover .product-image {
+    @apply scale-110;
+  }
+
+  .product-image {
+    @apply transition-transform duration-700 ease-out;
+  }
+
+  /* Button effects */
+  .casetify-button {
+    @apply relative overflow-hidden transition-all duration-300;
+  }
+
+  .casetify-button::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full;
+    transition: transform 0.6s;
+  }
+
+  .casetify-button:hover::before {
+    @apply translate-x-full;
+  }
+
+  /* Loading states */
+  .casetify-skeleton {
+    @apply bg-gradient-to-r from-casetify-neutral-200 via-casetify-neutral-100 to-casetify-neutral-200 bg-[length:200%_100%];
+    animation: skeleton-loading 1.5s infinite;
+  }
+
+  /* Floating elements */
+  .casetify-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .casetify-float-delayed {
+    animation: float 6s ease-in-out infinite 2s;
+  }
+
+  /* Interactive elements */
+  .casetify-interactive {
+    @apply cursor-pointer transition-all duration-300 ease-out;
+  }
+
+  .casetify-interactive:hover {
+    @apply transform scale-105 shadow-lg;
+  }
+
+  .casetify-interactive:active {
+    @apply transform scale-95;
+  }
+}
+
+/* Keyframe animations */
+@keyframes casetifyFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes casetifySlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes casetifyBounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Responsive animations */
+@media (prefers-reduced-motion: reduce) {
+  .casetify-hover-lift,
+  .casetify-hover-scale,
+  .casetify-fade-in,
+  .casetify-slide-up,
+  .casetify-bounce-in,
+  .product-card,
+  .casetify-button,
+  .casetify-interactive,
+  .casetify-float,
+  .casetify-float-delayed {
+    animation: none !important;
+    transition: none !important;
+  }
 }

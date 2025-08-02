@@ -7,23 +7,34 @@ export default async function PreviewPrice({ price }: { price: VariantPrice }) {
   }
 
   return (
-    <>
-      {price.price_type === "sale" && (
-        <Text
-          className="line-through text-ui-fg-muted"
-          data-testid="original-price"
-        >
-          {price.original_price}
-        </Text>
-      )}
+    <div className="flex items-center space-x-2">
+      {/* Current Price */}
       <Text
-        className={clx("text-ui-fg-muted", {
-          "text-ui-fg-interactive": price.price_type === "sale",
+        className={clx("font-bold text-lg", {
+          "text-casetify-accent-blue": price.price_type === "sale",
+          "text-casetify-primary": price.price_type !== "sale",
         })}
         data-testid="price"
       >
         {price.calculated_price}
       </Text>
-    </>
+
+      {/* Original Price (if on sale) */}
+      {price.price_type === "sale" && (
+        <Text
+          className="line-through text-casetify-neutral-400 text-sm"
+          data-testid="original-price"
+        >
+          {price.original_price}
+        </Text>
+      )}
+
+      {/* Sale Percentage */}
+      {price.price_type === "sale" && price.percentage_diff && (
+        <div className="bg-casetify-accent-green text-white px-2 py-1 rounded-full text-xs font-bold">
+          -{price.percentage_diff}%
+        </div>
+      )}
+    </div>
   )
 }

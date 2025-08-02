@@ -14,7 +14,11 @@
       "Bash(git add:*)",
       "Bash(git push origin main)",
       "Bash(git commit:*)",
-      "WebFetch(domain:www.casetify.com)"
+      "WebFetch(domain:www.casetify.com)",
+      "Bash(grep:*)",
+      "Bash(timeout 60 npm run build)",
+      "Bash(node -e \"console.log(''Node.js:'', process.version); console.log(''Platform:'', process.platform);\")",
+      "Bash(npm:*)"
     ],
     "deny": []
   }
