@@ -1,9 +1,11 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Dialog, Transition } from "@headlessui/react"
 import { Fragment } from "react"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { searchProducts, getPopularSearchTerms, SearchResult } from "@lib/data/search"
+import { convertToLocale } from "@lib/util/money"
 
 interface SearchModalProps {
   isOpen: boolean
@@ -12,18 +14,32 @@ interface SearchModalProps {
 
 const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   const [query, setQuery] = useState("")
-  const [results, setResults] = useState<any[]>([])
+  const [results, setResults] = useState<SearchResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [popularTerms] = useState(getPopularSearchTerms())
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Mock search results - in real app, this would call an API
-  const mockResults = [
-    { id: 1, title: "iPhone 16 Pro Case", price: "$29.99", image: "/placeholder.jpg", handle: "iphone-16-pro-case" },
-    { id: 2, title: "Samsung Galaxy S24 Case", price: "$24.99", image: "/placeholder.jpg", handle: "samsung-s24-case" },
-    { id: 3, title: "Wireless Charger", price: "$39.99", image: "/placeholder.jpg", handle: "wireless-charger" },
-    { id: 4, title: "Phone Stand", price: "$19.99", image: "/placeholder.jpg", handle: "phone-stand" },
-    { id: 5, title: "Screen Protector", price: "$14.99", image: "/placeholder.jpg", handle: "screen-protector" },
-  ]
+  // Debounced search function
+  const debouncedSearch = useCallback(
+    debounce(async (searchQuery: string) => {
+      if (searchQuery.length < 2) {
+        setResults([])
+        setIsLoading(false)
+        return
+      }
+
+      try {
+        const searchResponse = await searchProducts(searchQuery, { limit: 8 })
+        setResults(searchResponse.products)
+      } catch (error) {
+        console.error("Search failed:", error)
+        setResults([])
+      } finally {
+        setIsLoading(false)
+      }
+    }, 300),
+    []
+  )
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
@@ -32,26 +48,32 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   }, [isOpen])
 
   useEffect(() => {
-    if (query.length > 2) {
+    if (query.length > 0) {
       setIsLoading(true)
-      // Simulate API call
-      setTimeout(() => {
-        const filtered = mockResults.filter(item =>
-          item.title.toLowerCase().includes(query.toLowerCase())
-        )
-        setResults(filtered)
-        setIsLoading(false)
-      }, 300)
+      debouncedSearch(query)
     } else {
       setResults([])
+      setIsLoading(false)
     }
-  }, [query])
+  }, [query, debouncedSearch])
 
   const handleClose = () => {
     setQuery("")
     setResults([])
     onClose()
   }
+
+// Debounce utility function
+function debounce<T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+): (...args: Parameters<T>) => void {
+  let timeout: NodeJS.Timeout
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func(...args), wait)
+  }
+}
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -121,9 +143,9 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                     </div>
                   )}
 
-                  {query.length > 0 && query.length <= 2 && (
+                  {query.length > 0 && query.length < 2 && (
                     <div className="p-8 text-center text-gray-500">
-                      <p>Type at least 3 characters to search</p>
+                      <p>Type at least 2 characters to search</p>
                     </div>
                   )}
 
@@ -134,7 +156,7 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                     </div>
                   )}
 
-                  {!isLoading && query.length > 2 && results.length === 0 && (
+                  {!isLoading && query.length >= 2 && results.length === 0 && (
                     <div className="p-8 text-center text-gray-500">
                       <p>No products found for "{query}"</p>
                       <p className="text-sm mt-2">Try different keywords or browse our categories</p>
@@ -154,12 +176,32 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                             onClick={handleClose}
                             className="flex items-center p-3 hover:bg-gray-50 rounded-lg transition-colors"
                           >
-                            <div className="w-12 h-12 bg-gray-200 rounded-lg mr-4 flex-shrink-0">
-                              {/* Product image placeholder */}
+                            <div className="w-12 h-12 bg-gray-200 rounded-lg mr-4 flex-shrink-0 overflow-hidden">
+                              {product.thumbnail ? (
+                                <img
+                                  src={product.thumbnail}
+                                  alt={product.title}
+                                  className="w-full h-full object-cover"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gray-200"></div>
+                              )}
                             </div>
                             <div className="flex-1">
                               <h3 className="font-medium text-gray-900">{product.title}</h3>
-                              <p className="text-sm text-gray-500">{product.price}</p>
+                              <div className="flex items-center gap-2 text-sm text-gray-500">
+                                {product.price && (
+                                  <span className="font-medium">
+                                    {convertToLocale({
+                                      amount: parseInt(product.price.calculated_price),
+                                      currency_code: product.price.currency_code,
+                                    })}
+                                  </span>
+                                )}
+                                {product.category && (
+                                  <span>• {product.category.name}</span>
+                                )}
+                              </div>
                             </div>
                             <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -171,39 +213,55 @@ const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                   )}
                 </div>
 
-                {/* Quick Links */}
+                {/* Quick Links and Popular Searches */}
                 {query.length === 0 && (
                   <div className="p-6 border-t border-gray-200 bg-gray-50">
-                    <h3 className="text-sm font-medium text-gray-900 mb-3">Quick Links</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      <LocalizedClientLink
-                        href="/store?category=devices"
-                        onClick={handleClose}
-                        className="text-sm text-gray-600 hover:text-black transition-colors"
-                      >
-                        Devices
-                      </LocalizedClientLink>
-                      <LocalizedClientLink
-                        href="/store?category=cases"
-                        onClick={handleClose}
-                        className="text-sm text-gray-600 hover:text-black transition-colors"
-                      >
-                        Cases
-                      </LocalizedClientLink>
-                      <LocalizedClientLink
-                        href="/store?category=accessories"
-                        onClick={handleClose}
-                        className="text-sm text-gray-600 hover:text-black transition-colors"
-                      >
-                        Accessories
-                      </LocalizedClientLink>
-                      <LocalizedClientLink
-                        href="/store?custom=true"
-                        onClick={handleClose}
-                        className="text-sm text-gray-600 hover:text-black transition-colors"
-                      >
-                        Customize
-                      </LocalizedClientLink>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-900 mb-3">Quick Links</h3>
+                        <div className="space-y-2">
+                          <LocalizedClientLink
+                            href="/store?category=devices"
+                            onClick={handleClose}
+                            className="block text-sm text-gray-600 hover:text-black transition-colors"
+                          >
+                            Devices
+                          </LocalizedClientLink>
+                          <LocalizedClientLink
+                            href="/store?category=cases"
+                            onClick={handleClose}
+                            className="block text-sm text-gray-600 hover:text-black transition-colors"
+                          >
+                            Cases
+                          </LocalizedClientLink>
+                          <LocalizedClientLink
+                            href="/store?category=accessories"
+                            onClick={handleClose}
+                            className="block text-sm text-gray-600 hover:text-black transition-colors"
+                          >
+                            Accessories
+                          </LocalizedClientLink>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-900 mb-3">Popular Searches</h3>
+                        <div className="space-y-2">
+                          {popularTerms.slice(0, 4).map((term) => (
+                            <button
+                              key={term}
+                              onClick={() => {
+                                setQuery(term)
+                                if (inputRef.current) {
+                                  inputRef.current.focus()
+                                }
+                              }}
+                              className="block text-sm text-gray-600 hover:text-black transition-colors text-left"
+                            >
+                              {term}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}

@@ -15,33 +15,32 @@ type Props = {
   }>
 }
 
-// 注释掉静态生成，使用动态渲染
-// export async function generateStaticParams() {
-//   const product_categories = await listCategories()
+export async function generateStaticParams() {
+  const product_categories = await listCategories()
 
-//   if (!product_categories) {
-//     return []
-//   }
+  if (!product_categories) {
+    return []
+  }
 
-//   const countryCodes = await listRegions().then((regions: StoreRegion[]) =>
-//     regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
-//   )
+  const countryCodes = await listRegions().then((regions: StoreRegion[]) =>
+    regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
+  )
 
-//   const categoryHandles = product_categories.map(
-//     (category: any) => category.handle
-//   )
+  const categoryHandles = product_categories.map(
+    (category: any) => category.handle
+  )
 
-//   const staticParams = countryCodes
-//     ?.map((countryCode: string | undefined) =>
-//       categoryHandles.map((handle: any) => ({
-//         countryCode,
-//         category: [handle],
-//       }))
-//     )
-//     .flat()
+  const staticParams = countryCodes
+    ?.map((countryCode: string | undefined) =>
+      categoryHandles.map((handle: any) => ({
+        countryCode,
+        category: [handle],
+      }))
+    )
+    .flat()
 
-//   return staticParams
-// }
+  return staticParams
+}
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params

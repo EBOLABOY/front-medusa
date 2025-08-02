@@ -1,7 +1,16 @@
 "use client"
 
 import { useState } from "react"
-import SearchModal from "@modules/common/components/search-modal"
+import dynamic from "next/dynamic"
+
+// Dynamically import SearchModal to reduce initial bundle size
+const SearchModal = dynamic(
+  () => import("@modules/common/components/search-modal"),
+  {
+    ssr: false,
+    loading: () => null,
+  }
+)
 
 const SearchButton = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
@@ -19,10 +28,12 @@ const SearchButton = () => {
         <span className="hidden lg:inline">Search</span>
       </button>
 
-      <SearchModal 
-        isOpen={isSearchOpen} 
-        onClose={() => setIsSearchOpen(false)} 
-      />
+      {isSearchOpen && (
+        <SearchModal
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+        />
+      )}
     </>
   )
 }
