@@ -7,16 +7,28 @@ const SkeletonProductGrid = ({
   numberOfProducts?: number
 }) => {
   return (
-    <ul
-      className="grid grid-cols-2 small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8 flex-1"
-      data-testid="products-list-loader"
-    >
-      {repeat(numberOfProducts).map((index) => (
-        <li key={index}>
-          <SkeletonProductPreview />
-        </li>
-      ))}
-    </ul>
+    <div className="space-y-6">
+      {/* Results header skeleton */}
+      <div className="flex items-center justify-between">
+        <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+        <div className="flex items-center space-x-2">
+          <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+          <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+        </div>
+      </div>
+
+      {/* Products grid skeleton */}
+      <ul
+        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-4"
+        data-testid="products-list-loader"
+      >
+        {repeat(numberOfProducts).map((index) => (
+          <li key={index}>
+            <SkeletonProductPreview />
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 

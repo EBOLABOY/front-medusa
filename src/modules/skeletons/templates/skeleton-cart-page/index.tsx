@@ -7,54 +7,41 @@ import SkeletonOrderSummary from "@modules/skeletons/components/skeleton-order-s
 
 const SkeletonCartPage = () => {
   return (
-    <div className="py-12">
-      <div className="content-container">
-        <div className="grid grid-cols-1 small:grid-cols-[1fr_360px] gap-x-40">
-          <div className="flex flex-col bg-white p-6 gap-y-6">
-            <div className="bg-white flex items-start justify-between">
-              <div className="flex flex-col gap-y-2">
-                <div className="w-60 h-8 bg-gray-200 animate-pulse" />
-                <div className="w-48 h-6 bg-gray-200 animate-pulse" />
+    <div className="min-h-screen bg-gray-50">
+      {/* Header skeleton */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="h-8 bg-gray-200 rounded w-48 animate-pulse"></div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <div className="space-y-6">
+                {/* Cart items skeleton */}
+                {repeat(3).map((index) => (
+                  <div key={index} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg animate-pulse">
+                    <div className="w-20 h-20 bg-gray-200 rounded-lg"></div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                      <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                      <div className="h-3 bg-gray-200 rounded w-1/4"></div>
+                    </div>
+                    <div className="text-right space-y-2">
+                      <div className="h-4 bg-gray-200 rounded w-16"></div>
+                      <div className="h-3 bg-gray-200 rounded w-12"></div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div>
-                <div className="w-14 h-8 bg-gray-200 animate-pulse" />
-              </div>
-            </div>
-            <div>
-              <div className="pb-3 flex items-center">
-                <div className="w-20 h-12 bg-gray-200 animate-pulse" />
-              </div>
-              <Table>
-                <Table.Header className="border-t-0">
-                  <Table.Row>
-                    <Table.HeaderCell className="!pl-0">
-                      <div className="w-10 h-6 bg-gray-200 animate-pulse" />
-                    </Table.HeaderCell>
-                    <Table.HeaderCell></Table.HeaderCell>
-                    <Table.HeaderCell>
-                      <div className="w-16 h-6 bg-gray-200 animate-pulse" />
-                    </Table.HeaderCell>
-                    <Table.HeaderCell>
-                      <div className="w-12 h-6 bg-gray-200 animate-pulse" />
-                    </Table.HeaderCell>
-                    <Table.HeaderCell className="!pr-0">
-                      <div className="flex justify-end">
-                        <div className="w-12 h-6 bg-gray-200 animate-pulse" />
-                      </div>
-                    </Table.HeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {repeat(4).map((index) => (
-                    <SkeletonCartItem key={index} />
-                  ))}
-                </Table.Body>
-              </Table>
             </div>
           </div>
-          <div className="flex flex-col gap-y-8">
-            <SkeletonOrderSummary />
-            <SkeletonCodeForm />
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <SkeletonOrderSummary />
+            </div>
           </div>
         </div>
       </div>
