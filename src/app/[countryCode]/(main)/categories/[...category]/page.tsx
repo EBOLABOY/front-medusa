@@ -5,6 +5,9 @@ import { getCategoryByHandle, listCategories } from "@lib/data/categories"
 import { listRegions } from "@lib/data/regions"
 import { StoreRegion } from "@medusajs/types"
 import CategoryTemplate from "@modules/categories/templates"
+import { generateItemListSchema } from "@lib/util/schema"
+import { JsonLd } from "@lib/components/json-ld"
+import { getBaseURL } from "@lib/util/env"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 type Props = {
@@ -74,12 +77,28 @@ export default async function CategoryPage(props: Props) {
     notFound()
   }
 
+  // Generate ItemList schema for category products
+  const baseUrl = getBaseURL()
+  const categoryProducts = productCategory.products || []
+  const itemListSchema = generateItemListSchema(
+    `${productCategory.name} Products`,
+    productCategory.description || `Browse our collection of ${productCategory.name} products`,
+    categoryProducts.slice(0, 20).map(product => ({
+      name: product.title || '',
+      url: `${baseUrl}/${params.countryCode}/products/${product.handle}`,
+      image: product.thumbnail || undefined
+    }))
+  )
+
   return (
-    <CategoryTemplate
-      category={productCategory}
-      sortBy={sortBy}
-      page={page}
-      countryCode={params.countryCode}
-    />
+    <>
+      <JsonLd schema={itemListSchema} />
+      <CategoryTemplate
+        category={productCategory}
+        sortBy={sortBy}
+        page={page}
+        countryCode={params.countryCode}
+      />
+    </>
   )
 }

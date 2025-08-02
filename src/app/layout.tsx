@@ -1,6 +1,8 @@
 import { getBaseURL } from "@lib/util/env"
 import { Metadata } from "next"
 import "styles/globals.css"
+import { generateOrganizationSchema, generateWebSiteSchema } from "@lib/util/schema"
+import { JsonLd } from "@lib/components/json-ld"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -16,8 +18,16 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout(props: { children: React.ReactNode }) {
+  const baseUrl = getBaseURL()
+  const organizationSchema = generateOrganizationSchema(baseUrl)
+  const websiteSchema = generateWebSiteSchema(baseUrl)
+
   return (
     <html lang="en" data-mode="light">
+      <head>
+        <JsonLd schema={organizationSchema} />
+        <JsonLd schema={websiteSchema} />
+      </head>
       <body>
         <main className="relative">{props.children}</main>
       </body>

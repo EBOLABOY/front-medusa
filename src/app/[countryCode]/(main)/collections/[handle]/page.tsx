@@ -5,6 +5,9 @@ import { getCollectionByHandle, listCollections } from "@lib/data/collections"
 import { listRegions } from "@lib/data/regions"
 import { StoreCollection, StoreRegion } from "@medusajs/types"
 import CollectionTemplate from "@modules/collections/templates"
+import { generateItemListSchema } from "@lib/util/schema"
+import { JsonLd } from "@lib/components/json-ld"
+import { getBaseURL } from "@lib/util/env"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 
 type Props = {
@@ -79,12 +82,28 @@ export default async function CollectionPage(props: Props) {
     notFound()
   }
 
+  // Generate ItemList schema for collection products
+  const baseUrl = getBaseURL()
+  const collectionProducts = collection.products || []
+  const itemListSchema = generateItemListSchema(
+    `${collection.title} Collection`,
+    collection.metadata?.description as string || `Browse our ${collection.title} collection`,
+    collectionProducts.slice(0, 20).map(product => ({
+      name: product.title || '',
+      url: `${baseUrl}/${params.countryCode}/products/${product.handle}`,
+      image: product.thumbnail || undefined
+    }))
+  )
+
   return (
-    <CollectionTemplate
-      collection={collection}
-      page={page}
-      sortBy={sortBy}
-      countryCode={params.countryCode}
-    />
+    <>
+      <JsonLd schema={itemListSchema} />
+      <CollectionTemplate
+        collection={collection}
+        page={page}
+        sortBy={sortBy}
+        countryCode={params.countryCode}
+      />
+    </>
   )
 }
