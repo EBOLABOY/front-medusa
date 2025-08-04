@@ -50,24 +50,7 @@ const Payment = ({
     }
   }
 
-  // 初始化Stripe支付会话
-  const initializeStripeSession = async () => {
-    if (!availablePaymentMethods?.length) return
 
-    const stripeMethod = availablePaymentMethods.find(method =>
-      isStripeFunc(method.id)
-    )
-
-    if (stripeMethod && !activeSession) {
-      try {
-        await initiatePaymentSession(cart, {
-          provider_id: stripeMethod.id,
-        })
-      } catch (error) {
-        console.error('Failed to initialize Stripe session:', error)
-      }
-    }
-  }
 
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
@@ -124,29 +107,6 @@ const Payment = ({
   useEffect(() => {
     setError(null)
   }, [isOpen])
-
-  // 当支付步骤打开且有可用支付方法时，初始化Stripe会话
-  useEffect(() => {
-    if (isOpen && availablePaymentMethods?.length && !activeSession) {
-      console.log('Initializing Stripe session...', {
-        availablePaymentMethods,
-        activeSession,
-        isOpen
-      })
-      initializeStripeSession()
-    }
-  }, [isOpen, availablePaymentMethods, activeSession])
-
-  // 调试信息
-  useEffect(() => {
-    console.log('Payment component state:', {
-      availablePaymentMethods: availablePaymentMethods?.length,
-      activeSession,
-      selectedPaymentMethod,
-      isOpen,
-      paidByGiftcard
-    })
-  }, [availablePaymentMethods, activeSession, selectedPaymentMethod, isOpen, paidByGiftcard])
 
   return (
     <div className="bg-white">

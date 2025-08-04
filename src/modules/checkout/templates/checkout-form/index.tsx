@@ -27,14 +27,6 @@ export default async function CheckoutForm({
   // 如果支付方法为null，使用空数组
   const availablePaymentMethods = paymentMethods || []
 
-  // 调试信息
-  console.log('CheckoutForm debug:', {
-    cartRegionId: cart.region?.id,
-    shippingMethodsCount: shippingMethods?.length,
-    paymentMethodsCount: paymentMethods?.length,
-    availablePaymentMethods
-  })
-
   return (
     <div className="w-full grid grid-cols-1 gap-y-8">
       <Addresses cart={cart} customer={customer} />
