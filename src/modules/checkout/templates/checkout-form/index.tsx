@@ -20,9 +20,20 @@ export default async function CheckoutForm({
   const shippingMethods = await listCartShippingMethods(cart.id)
   const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
 
-  if (!shippingMethods || !paymentMethods) {
+  if (!shippingMethods) {
     return null
   }
+
+  // 如果支付方法为null，使用空数组
+  const availablePaymentMethods = paymentMethods || []
+
+  // 调试信息
+  console.log('CheckoutForm debug:', {
+    cartRegionId: cart.region?.id,
+    shippingMethodsCount: shippingMethods?.length,
+    paymentMethodsCount: paymentMethods?.length,
+    availablePaymentMethods
+  })
 
   return (
     <div className="w-full grid grid-cols-1 gap-y-8">
@@ -30,7 +41,7 @@ export default async function CheckoutForm({
 
       <Shipping cart={cart} availableShippingMethods={shippingMethods} />
 
-      <Payment cart={cart} availablePaymentMethods={paymentMethods} />
+      <Payment cart={cart} availablePaymentMethods={availablePaymentMethods} />
 
       <Review cart={cart} />
     </div>
