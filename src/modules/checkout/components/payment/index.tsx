@@ -140,10 +140,19 @@ const Payment = ({
   }, [isOpen])
 
   useEffect(() => {
-    if (!activeSession && isOpen) {
+    console.log('Payment debug:', {
+      isOpen,
+      activeSession,
+      availablePaymentMethods: availablePaymentMethods?.length,
+      stripeReady,
+      paidByGiftcard
+    })
+
+    if (!activeSession && isOpen && availablePaymentMethods?.length) {
+      console.log('Initializing Stripe session...')
       initStripe()
     }
-  }, [cart, isOpen, activeSession])
+  }, [cart, isOpen, activeSession, availablePaymentMethods, stripeReady])
 
   return (
     <div className="bg-white">
@@ -175,18 +184,22 @@ const Payment = ({
       </div>
       <div>
         <div className={isOpen ? "block" : "hidden"}>
-          {!paidByGiftcard &&
-            availablePaymentMethods?.length &&
-            stripeReady && (
-              <div className="mt-5 transition-all duration-150 ease-in-out">
-                <PaymentElement
-                  onChange={handlePaymentElementChange}
-                  options={{
-                    layout: "accordion",
-                  }}
-                />
-              </div>
-            )}
+          {!paidByGiftcard && stripeReady && (
+            <div className="mt-5 transition-all duration-150 ease-in-out">
+              <PaymentElement
+                onChange={handlePaymentElementChange}
+                options={{
+                  layout: "accordion",
+                }}
+              />
+            </div>
+          )}
+
+          {!paidByGiftcard && !stripeReady && (
+            <div className="mt-5 p-4 bg-gray-100 rounded-md">
+              <Text className="text-gray-600">Loading payment methods...</Text>
+            </div>
+          )}
 
           {paidByGiftcard && (
             <div className="flex flex-col w-1/3">
