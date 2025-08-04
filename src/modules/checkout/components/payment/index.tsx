@@ -6,9 +6,11 @@ import { initiatePaymentSession } from "@lib/data/cart"
 import { CheckCircleSolid, CreditCard } from "@medusajs/icons"
 import { Button, Container, Heading, Text, clx } from "@medusajs/ui"
 import ErrorMessage from "@modules/checkout/components/error-message"
-import PaymentContainer, {
-  StripeCardContainer,
-} from "@modules/checkout/components/payment-container"
+import PaymentContainer from "@modules/checkout/components/payment-container"
+import { useContext } from "react"
+import { PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { StripePaymentElementChangeEvent } from "@stripe/stripe-js"
+import { StripeContext } from "@modules/checkout/components/payment-wrapper/stripe-wrapper"
 import Divider from "@modules/common/components/divider"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
@@ -26,11 +28,12 @@ const Payment = ({
 
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [cardBrand, setCardBrand] = useState<string | null>(null)
-  const [cardComplete, setCardComplete] = useState(false)
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
-    activeSession?.provider_id ?? ""
-  )
+  const [stripeComplete, setStripeComplete] = useState(false)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("")
+
+  const stripeReady = useContext(StripeContext)
+  const stripe = stripeReady ? useStripe() : null
+  const elements = stripeReady ? useElements() : null
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -39,6 +42,23 @@ const Payment = ({
   const isOpen = searchParams.get("step") === "payment"
 
   const isStripe = isStripeFunc(selectedPaymentMethod)
+
+  const handlePaymentElementChange = async (
+    event: StripePaymentElementChangeEvent
+  ) => {
+    // Catches the selected payment method and sets it to state
+    if (event.value.type) {
+      setSelectedPaymentMethod(event.value.type)
+    }
+
+    // Sets stripeComplete on form completion
+    setStripeComplete(event.complete)
+
+    // Clears any errors on successful completion
+    if (event.complete) {
+      setError(null)
+    }
+  }
 
   const setPaymentMethod = async (method: string) => {
     setError(null)
@@ -76,27 +96,26 @@ const Payment = ({
 
   const handleSubmit = async () => {
     setIsLoading(true)
+    setError(null)
+
     try {
-      const shouldInputCard =
-        isStripeFunc(selectedPaymentMethod) && !activeSession
-
-      const checkActiveSession =
-        activeSession?.provider_id === selectedPaymentMethod
-
-      if (!checkActiveSession) {
-        await initiatePaymentSession(cart, {
-          provider_id: selectedPaymentMethod,
-        })
+      // Check if the necessary context is ready
+      if (!stripe || !elements) {
+        setError("Payment processing not ready. Please try again.")
+        return
       }
 
-      if (!shouldInputCard) {
-        return router.push(
-          pathname + "?" + createQueryString("step", "review"),
-          {
-            scroll: false,
-          }
-        )
-      }
+      // Submit the payment method details
+      await elements.submit().catch((err) => {
+        console.error(err)
+        setError(err.message || "An error occurred with the payment")
+        return
+      })
+
+      // Navigate to the final checkout step
+      router.push(pathname + "?" + createQueryString("step", "review"), {
+        scroll: false,
+      })
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -104,9 +123,27 @@ const Payment = ({
     }
   }
 
+  const initStripe = async () => {
+    try {
+      await initiatePaymentSession(cart, {
+        // TODO: change the provider ID if using a different ID in medusa-config.ts
+        provider_id: "pp_stripe_stripe",
+      })
+    } catch (err) {
+      console.error("Failed to initialize Stripe session:", err)
+      setError("Failed to initialize payment. Please try again.")
+    }
+  }
+
   useEffect(() => {
     setError(null)
   }, [isOpen])
+
+  useEffect(() => {
+    if (!activeSession && isOpen) {
+      initStripe()
+    }
+  }, [cart, isOpen, activeSession])
 
   return (
     <div className="bg-white">
@@ -138,35 +175,18 @@ const Payment = ({
       </div>
       <div>
         <div className={isOpen ? "block" : "hidden"}>
-          {!paidByGiftcard && availablePaymentMethods?.length && (
-            <>
-              <RadioGroup
-                value={selectedPaymentMethod}
-                onChange={(value: string) => setPaymentMethod(value)}
-              >
-                {availablePaymentMethods.map((paymentMethod) => (
-                  <div key={paymentMethod.id}>
-                    {isStripeFunc(paymentMethod.id) ? (
-                      <StripeCardContainer
-                        paymentProviderId={paymentMethod.id}
-                        selectedPaymentOptionId={selectedPaymentMethod}
-                        paymentInfoMap={paymentInfoMap}
-                        setCardBrand={setCardBrand}
-                        setError={setError}
-                        setCardComplete={setCardComplete}
-                      />
-                    ) : (
-                      <PaymentContainer
-                        paymentInfoMap={paymentInfoMap}
-                        paymentProviderId={paymentMethod.id}
-                        selectedPaymentOptionId={selectedPaymentMethod}
-                      />
-                    )}
-                  </div>
-                ))}
-              </RadioGroup>
-            </>
-          )}
+          {!paidByGiftcard &&
+            availablePaymentMethods?.length &&
+            stripeReady && (
+              <div className="mt-5 transition-all duration-150 ease-in-out">
+                <PaymentElement
+                  onChange={handlePaymentElementChange}
+                  options={{
+                    layout: "accordion",
+                  }}
+                />
+              </div>
+            )}
 
           {paidByGiftcard && (
             <div className="flex flex-col w-1/3">
@@ -193,19 +213,19 @@ const Payment = ({
             onClick={handleSubmit}
             isLoading={isLoading}
             disabled={
-              (isStripe && !cardComplete) ||
+              !stripeComplete ||
+              !stripe ||
+              !elements ||
               (!selectedPaymentMethod && !paidByGiftcard)
             }
             data-testid="submit-payment-button"
           >
-            {!activeSession && isStripeFunc(selectedPaymentMethod)
-              ? " Enter card details"
-              : "Continue to review"}
+            Continue to review
           </Button>
         </div>
 
         <div className={isOpen ? "hidden" : "block"}>
-          {cart && paymentReady && activeSession ? (
+          {cart && paymentReady && activeSession && selectedPaymentMethod ? (
             <div className="flex items-start gap-x-1 w-full">
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
@@ -232,11 +252,7 @@ const Payment = ({
                       <CreditCard />
                     )}
                   </Container>
-                  <Text>
-                    {isStripeFunc(selectedPaymentMethod) && cardBrand
-                      ? cardBrand
-                      : "Another step will appear"}
-                  </Text>
+                  <Text>Another step may appear</Text>
                 </div>
               </div>
             </div>

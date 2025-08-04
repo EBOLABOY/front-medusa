@@ -30,6 +30,14 @@ export const paymentInfoMap: Record<
     title: "Manual Payment",
     icon: <CreditCard />,
   },
+  card: {
+    title: "Credit card",
+    icon: <CreditCard />,
+  },
+  paypal: {
+    title: "PayPal",
+    icon: <PayPal />,
+  },
   // Add more payment providers here
 }
 
